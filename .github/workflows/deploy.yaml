@@ -38,7 +38,7 @@ jobs:
 
           git rm -rf .
 
-          
+          cp -r dist/* ./
 
           git add .
 
