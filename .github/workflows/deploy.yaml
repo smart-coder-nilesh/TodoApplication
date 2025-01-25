@@ -1,8 +1,9 @@
-name: new website static content deploy
+name: Todo Application Deployment
 
 on:
   push:
     branches: [main]
+  
 
 permissions:
   contents: write.
@@ -11,38 +12,35 @@ jobs:
   build_test_and_deploy:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v3
+    steps :
+      - name : checkout master
+        uses : actions/checkout@v3
 
-      - name: Setup Node.js
+      - name : setup project 
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version : 18
 
-      - name: Install dependencies
-        run: npm install
+      - name : install dependencies
+        run : npm install
 
-      - name: Install Bootstrap
-        run: npm install bootstrap@5
-
-      - name: Build project
+      - name : build project
         run: npm run build
 
-      - name: Deploy to GitHub Pages
+      - name : github pages to deploy static website
         run: |
-          git config --global user.name "smart-coder-nilesh"
-          git config --global user.email "mishranilesh@gmail.com"
+         git config --global user.name "smart-coder-nilesh"
+         git config --global user.email "mishranilesh@gmail.com"
 
-          git checkout --orphan gh-pages
+         git checkout --orphan gh-pages
 
-          git rm -rf .
+         git rm -rf .
 
-          cp -r build/* ./
+         cp -r build/* ./
 
-          git add .
+         git add .
 
-          git commit -m "Deploy to GitHub Pages"
+         git commit -m "Deploy to github pages"
 
-          git push origin gh-pages --force
-          git checkout master
+         git push origin gh-pages --force
+         git checkout master
