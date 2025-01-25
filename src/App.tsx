@@ -47,7 +47,7 @@ function App() {
             />
             <button
               type="submit"
-              className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors duration-200 flex items-center gap-2"
+              className="bg-purple-450 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors duration-200 flex items-center gap-2"
             >
               <PlusCircle size={20} />
               Add
