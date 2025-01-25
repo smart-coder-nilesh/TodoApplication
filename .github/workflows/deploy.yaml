@@ -3,44 +3,47 @@ name: Todo Application Deployment
 on:
   push:
     branches: [master]
-  
+  pull_request:
+    branches: [master]
 
 permissions:
-  contents: write.
+  contents: write
 
 jobs:
   build_test_and_deploy:
     runs-on: ubuntu-latest
 
-    steps :
-      - name : checkout master
-        uses : actions/checkout@v3
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name : setup project 
+      # Step 2: Cache Node.js modules for faster builds
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Step 3: Setup Node.js environment
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version : 18
+          node-version: 18
 
-      - name : install dependencies
-        run : npm install
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: npm install
 
-      - name : build project
+      # Step 5: Build the React + Tailwind project
+      - name: Build project
         run: npm run build
 
-      - name : github pages to deploy static website
-        run: |
-         git config --global user.name "smart-coder-nilesh"
-         git config --global user.email "mishranilesh@gmail.com"
-
-         git checkout --orphan gh-pages
-
-         git rm -rf .
-
-         cp -r build/* ./
-
-         git add .
-
-         git commit -m "Deploy to github pages"
-
-         git push origin gh-pages --force
-         git checkout master
+      # Step 6: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
