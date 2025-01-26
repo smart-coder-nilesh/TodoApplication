@@ -30,12 +30,10 @@ jobs:
       # Step 4: Build the project
       - name: Build the project
         run: npm run build
-  
+
       # Step 5: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        run: |
-          git config --global user.name "smart-coder-nilesh"
-          git config --global user.email "mishranilesh@gmail.com"
-          npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
