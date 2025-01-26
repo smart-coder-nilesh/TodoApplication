@@ -38,4 +38,4 @@ jobs:
           git config --global user.email "mishranilesh@gmail.com"
           npm run deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
